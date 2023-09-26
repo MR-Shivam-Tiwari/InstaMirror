@@ -1,0 +1,31 @@
+#main{
+  margin:0;
+height:100vh;
+width:100%;
+display: flex;
+box-sizing: border-box;
+flex-direction: column;
+
+}
+#card{
+  padding: 15px;
+  align-self: center;
+  height:auto;
+  width:340px;
+  border:5px solid blue;
+  box-sizing: border-box;
+ 
+}
+h1{
+  font-size:50px;
+  color:rgb(41, 88, 175);
+}
+.heading{
+  color: rgba(73, 71, 71, 0.555);
+  font-size:15px;
+}
+img{
+  height:300px;
+  width:300px;
+ border-radius: 4%;
+}
