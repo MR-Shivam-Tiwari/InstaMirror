@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./css/Postview.css";
 import Avatar from "@mui/joy/Avatar";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
@@ -29,6 +29,8 @@ import Addpost from "./form";
 import { useName } from "./NameContext";
 
 export default function Daa() {
+  const [likedPosts, setLikedPosts] = useState([]);
+
   const [open, setOpen] = React.useState(false);
   const nav = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -37,9 +39,17 @@ export default function Daa() {
   const gotoform = () => {
     nav("/form");
   };
-const Logout = ()=>{
-  nav("/")
-}
+  const Logout = () => {
+    nav("/");
+  };
+  const handleLike = (postId) => {
+    if (!likedPosts.includes(postId)) {
+      setLikedPosts([...likedPosts, postId]);
+    } else {
+      const updatedLikedPosts = likedPosts.filter((id) => id !== postId);
+      setLikedPosts(updatedLikedPosts);
+    }
+  };
   const [users, setUsers] = useState([]);
 
   const getUsers = async () => {
@@ -54,7 +64,6 @@ const Logout = ()=>{
 
   useEffect(() => {
     getUsers();
-    
   }, []);
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -64,20 +73,20 @@ const Logout = ()=>{
       setWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const styles = {
-    width: '30%',
-    marginTop: '10%',
+    width: "30%",
+    marginTop: "10%",
   };
 
   if (width <= 768) {
-    styles.width = '100%';
+    styles.width = "100%";
   }
 
   return (
@@ -144,16 +153,16 @@ const Logout = ()=>{
         </Button>
 
         <Box sx={{ display: "flex", flexShrink: 0, gap: 2 }}>
-        <Button
-          variant="outlined"
-          color="neutral"
-          className="me-2 bg-light"
-          startDecorator={<LogoutIcon />}
-          onClick={Logout}
-        > Logout
-        </Button>
-
-         
+          <Button
+            variant="outlined"
+            color="neutral"
+            className="me-2 bg-light"
+            startDecorator={<LogoutIcon />}
+            onClick={Logout}
+          >
+            {" "}
+            Logout
+          </Button>
         </Box>
       </Sheet>
 
@@ -166,7 +175,7 @@ const Logout = ()=>{
             className="rounded-3 mt-2 mb-2 "
             style={styles}
             // sx={{
-            
+
             //   minWidth: 500,
             //   "--Card-radius": (theme) => theme.vars.radius.xs,
             // }}
@@ -205,7 +214,9 @@ const Logout = ()=>{
               </Box>
               <div>
                 <p className="fs-19 fw-bold mb-0 mt-3">{Elem.author}</p>{" "}
-                <p className="mt-0" style={{fontSize:"13px"}}>{Elem.location}</p>
+                <p className="mt-0" style={{ fontSize: "13px" }}>
+                  {Elem.location}
+                </p>
               </div>
               <IconButton
                 variant="plain"
@@ -218,7 +229,7 @@ const Logout = ()=>{
             </CardContent>
             <CardOverflow>
               <AspectRatio>
-                <img src={`/uploads/${Elem.image}`} alt="" loading="lazy"  />
+                <img src={`/uploads/${Elem.image}`} alt="" loading="lazy" />
               </AspectRatio>
             </CardOverflow>
             <CardContent
@@ -226,16 +237,35 @@ const Logout = ()=>{
               sx={{ alignItems: "center", mx: -1 }}
             >
               <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
-                <IconButton variant="plain" color="neutral" size="sm">
+                <IconButton
+                  variant="plain"
+                  color={likedPosts.includes(Elem.id) ? "danger" : "neutral"}
+                  size="sm"
+                  onClick={() => handleLike(Elem.id)}
+                >
                   <FavoriteBorder />
                 </IconButton>
+
+               
                 <IconButton variant="plain" color="neutral" size="sm">
                   <ModeCommentOutlined />
                 </IconButton>
                 <IconButton variant="plain" color="neutral" size="sm">
                   <SendOutlined />
                 </IconButton>
+               
               </Box>
+              <Typography
+              className="mt-5"
+                  fontSize="15px"
+                  sx={{ color: "text.tertiary", my: 0.5 }}
+                >
+                  {likedPosts.includes(Elem.id)
+                    ? `${likedPosts.length} ${
+                        likedPosts.length === 1 ? "like" : "likes"
+                      }`
+                    : ""}
+                </Typography>
               <Box
                 sx={{
                   display: "flex",
@@ -243,9 +273,7 @@ const Logout = ()=>{
                   gap: 0.5,
                   mx: "auto",
                 }}
-              >
-               
-              </Box>
+              ></Box>
               <Box
                 sx={{ width: 0, display: "flex", flexDirection: "row-reverse" }}
               >
@@ -255,7 +283,6 @@ const Logout = ()=>{
               </Box>
             </CardContent>
             <CardContent>
-            
               <Typography fontSize="sm">
                 <Link
                   component="button"
@@ -277,38 +304,7 @@ const Logout = ()=>{
                 {/* 2 DAYS AGO */}
               </Link>
             </CardContent>
-           
           </Card>
-          {/* <div className="post">
-            <div className="first">
-              <div className="infirst">
-                <div></div>
-                <p className="upperpara">
-                  <b>{Elem.author}</b>
-                </p>
-                <p className="upperpara2">{Elem.location}</p>
-              </div>
-              <img id="p3" src={dot} alt="avataar"></img>
-            </div>
-            <div className="midp">
-              <img id="p2" src={`/uploads/${Elem.image}`} alt="avataar"></img>
-            </div>
-            <div className="thirdline">
-              <div className="inthirdline">
-                <div>
-                  <i className="fa fa-heart" />
-                </div>
-                <div>
-                  <i className="fa fa-paper-plane" />
-                </div>
-                <div>{Elem.date}</div>
-              </div>
-              <div>{Elem.likes}</div>
-            </div>
-            <div className="lastline">
-              <b>{Elem.description}</b>
-            </div>
-          </div> */}
         </div>
       ))}
     </>
