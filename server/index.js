@@ -52,6 +52,7 @@ app.post("/post", upload,async(req,res)=>{
     
 })
 
+// sdsdf?
 
 app.get("/post",async(req,res)=>{
     const data=await User.find()
