@@ -54,7 +54,7 @@ export default function Daa() {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:3000/post");
+      const response = await fetch("https://instamirror-back.onrender.com/post");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
