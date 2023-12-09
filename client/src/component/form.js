@@ -56,7 +56,7 @@ const Addpost = ({ setOpen, name }) => {
       };
 
       const res = await axios.post(
-        "http://localhost:3000/post",
+        "https://instamirror-back.onrender.com/post",
         formDataToSend,
         config
       );
